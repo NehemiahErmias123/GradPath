@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../config";
 
 function Programs() {
   const [search, setSearch] = useState("");
@@ -15,7 +16,7 @@ function Programs() {
     setSearching(true);
     const timeoutId = setTimeout(() => {
       fetch(
-        `http://localhost/GradPath/api/programs/search-universities.php?name=${encodeURIComponent(search)}`,
+        `${API_BASE_URL}/programs/search-universities.php?name=${encodeURIComponent(search)}`,
       )
         .then((res) => res.json())
         .then((data) => {
@@ -38,7 +39,7 @@ function Programs() {
     const token = localStorage.getItem("token");
 
     const findResponse = await fetch(
-      "http://localhost/GradPath/api/programs/find-or-create.php",
+      `${API_BASE_URL}/programs/find-or-create.php`,
       {
         method: "POST",
         headers: {
@@ -59,7 +60,7 @@ function Programs() {
     }
 
     const trackResponse = await fetch(
-      "http://localhost/GradPath/api/tracked-programs/track.php",
+      `${API_BASE_URL}/tracked-programs/track.php`,
       {
         method: "POST",
         headers: {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 function Checklist() {
   const { trackedProgramId } = useParams();
@@ -10,7 +11,7 @@ function Checklist() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch(
-      `http://localhost/GradPath/api/checklist-items/list.php?tracked_program_id=${trackedProgramId}`,
+      `${API_BASE_URL}/checklist-items/list.php?tracked_program_id=${trackedProgramId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       },
@@ -24,17 +25,14 @@ function Checklist() {
 
   const toggleItem = async (itemId) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      "http://localhost/GradPath/api/checklist-items/toggle.php",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ item_id: itemId }),
+    const response = await fetch(`${API_BASE_URL}/checklist-items/toggle.php`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
+      body: JSON.stringify({ item_id: itemId }),
+    });
     const data = await response.json();
 
     setItems((prev) =>
@@ -51,20 +49,17 @@ function Checklist() {
     if (!newItemTitle.trim()) return;
 
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      "http://localhost/GradPath/api/checklist-items/create.php",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tracked_program_id: trackedProgramId,
-          title: newItemTitle,
-        }),
+    const response = await fetch(`${API_BASE_URL}/checklist-items/create.php`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
+      body: JSON.stringify({
+        tracked_program_id: trackedProgramId,
+        title: newItemTitle,
+      }),
+    });
     const data = await response.json();
 
     setItems((prev) => [

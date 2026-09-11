@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 function Dashboard() {
   const [tracked, setTracked] = useState([]);
@@ -11,7 +12,7 @@ function Dashboard() {
 
   const fetchTracked = () => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost/GradPath/api/tracked-programs/list.php", {
+    fetch(`${API_BASE_URL}/tracked-programs/list.php`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -26,7 +27,7 @@ function Dashboard() {
     e.stopPropagation();
 
     const token = localStorage.getItem("token");
-    await fetch("http://localhost/GradPath/api/tracked-programs/untrack.php", {
+    await fetch(`${API_BASE_URL}/tracked-programs/untrack.php`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 function Register() {
   const [name, setName] = useState("");
@@ -12,14 +13,11 @@ function Register() {
     e.preventDefault();
     setError("");
 
-    const response = await fetch(
-      "http://localhost/GradPath/api/auth/register.php",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/auth/register.php`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
     const data = await response.json();
 
     if (!response.ok) {

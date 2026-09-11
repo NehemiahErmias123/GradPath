@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,14 +12,11 @@ function Login() {
     e.preventDefault();
     setError("");
 
-    const response = await fetch(
-      "http://localhost/GradPath/api/auth/login.php",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/auth/login.php`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
     const data = await response.json();
 
     if (!response.ok) {
